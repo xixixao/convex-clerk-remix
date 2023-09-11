@@ -1,3 +1,4 @@
+import { SignInButton, SignOutButton } from "@clerk/remix";
 import type { V2_MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { useConvexAuth } from "convex/react";
@@ -10,10 +11,20 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Index() {
-  console.log(useConvexAuth());
+  const { isLoading, isAuthenticated } = useConvexAuth();
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix</h1>
+
+      <div>
+        {isLoading ? (
+          "..."
+        ) : isAuthenticated ? (
+          <SignOutButton />
+        ) : (
+          <SignInButton />
+        )}
+      </div>
       <Link to="/another">Go to another page</Link>
       <ul>
         <li>
